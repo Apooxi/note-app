@@ -54,10 +54,13 @@ async function fetchNotes() {
   allNotes.forEach((note) => {
     let listElement = document.createElement("li");
     listElement.innerHTML =`
-    <h3>${note.title}</h3>
-    <p>${note.content}</p>
+    <h3 style= "text-decoration: ${note.complete ? 'line-through' : 'none'}">${note.title}</h3>
+    <p style= "text-decoration: ${note.complete ? 'line-through' : 'none'}">${note.content}</p>
     <button onclick = "deleteNote(${note.id})">Sil</button>
     <button onclick = "prepareEdit(${note.id})">Düzenle</button>
+    <button onclick = "toggleComplete(${note.id})">
+      ${note.complete ? 'Geri Al' : 'Tamamlandı'}
+    </button>
     `;
     noteList.appendChild(listElement);
   });
@@ -80,5 +83,24 @@ function prepareEdit(id) {
   noteContent.value = foundNote.content;
   editId = id;
 }
+
+async function toggleComplete(id) {
+  let foundNote = allNotes.find((note) => {
+    return note.id == id;
+  }) 
+
+  let updatedNote = {
+    ...foundNote,
+    complete: !foundNote.complete
+  };
+
+  await fetch(`/api/notes/${id}`, {
+    method: 'PUT',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify(updatedNote)
+  });
+
+  fetchNotes();
+} 
 
 fetchNotes();
