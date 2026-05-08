@@ -5,9 +5,7 @@ app.use(express.json());
 
 app.use(express.static('public'));
 
-/* 
-Kritik Adım: Daha önce anasayfa için yazdığın app.get('/', ...) bloğunu tamamen sil veya yorum satırına al. Neden mi? Çünkü express.static kullandığımızda, sunucu kök dizine (/) gelen isteklere otomatik olarak public klasöründeki index.html'i gönderir. İki tane kök dizin tanımı olursa çakışırlar. let id kısımlarına da ufak düzeltmeleri (let id = ...) yaptıysan süper.
-*/
+
 
 app.post('/api/notes', (req, res) => {
   const newNote = {
