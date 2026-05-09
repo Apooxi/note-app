@@ -52,17 +52,21 @@ async function fetchNotes() {
   allNotes = await response.json();
 
   allNotes.forEach((note) => {
-    let listElement = document.createElement("li");
-    listElement.innerHTML =`
+    let divElement = document.createElement("div");
+    divElement.classList.add("note-card");
+    divElement.innerHTML =`
     <h3 style= "text-decoration: ${note.complete ? 'line-through' : 'none'}">${note.title}</h3>
     <p style= "text-decoration: ${note.complete ? 'line-through' : 'none'}">${note.content}</p>
-    <button onclick = "deleteNote(${note.id})">Sil</button>
-    <button onclick = "prepareEdit(${note.id})">Düzenle</button>
-    <button onclick = "toggleComplete(${note.id})">
-      ${note.complete ? 'Geri Al' : 'Tamamlandı'}
-    </button>
+    <div class="button-container">
+      <button class="delete-button" onclick = "deleteNote(${note.id})">Sil</button>
+      <button class="edit-button" onclick = "prepareEdit(${note.id})">Düzenle</button>
+      <button class="complete-button" onclick = "toggleComplete(${note.id})">
+        ${note.complete ? 'Geri Al' : 'Tamamlandı'}
+      </button>
+    </div>
+    
     `;
-    noteList.appendChild(listElement);
+    noteList.appendChild(divElement);
   });
        
 };
